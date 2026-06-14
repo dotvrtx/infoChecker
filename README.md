@@ -1,87 +1,51 @@
-# System Information Collector
+# infoChecker
 
-A lightweight Python utility that gathers and displays system, network, and browser-like environment information. The script is designed to work across multiple operating systems and includes fallback mechanisms when certain libraries or APIs are unavailable.
+A cross-platform Python utility that collects and displays detailed system and network information, including hardware details, IP addresses, MAC addresses, locale settings, timezone information, and browser-like HTTP headers.
 
 ## Features
 
 ### System Information
 
-Collects:
-
 * Hostname
-* Operating system
-* OS release and version
-* CPU architecture
-* Processor information
-* Python version
-* System locale
+* Operating System
+* OS Release & Version
+* CPU Architecture
+* Processor Information
+* Python Version
+* Locale Settings
 * Timezone
 
 ### Network Information
 
-#### MAC Addresses
+* MAC Addresses from all available interfaces
+* IPv4 Addresses
+* IPv6 Addresses
+* Primary Local Network Address
 
-Attempts to retrieve MAC addresses from all available network interfaces using:
+### Browser Header Generation
 
-1. `psutil` (preferred method)
-2. `uuid.getnode()` fallback
-3. Windows `ipconfig /all` fallback
-
-#### IP Addresses
-
-Collects:
-
-* IPv4 addresses
-* IPv6 addresses
-* Primary local network address
-
-Uses:
-
-1. `psutil.net_if_addrs()`
-2. Hostname resolution fallback
-3. UDP socket method for determining the primary local IP
-
-### Browser-like Headers
-
-Generates a set of HTTP headers that resemble those sent by a web browser, including:
+Generates realistic browser-style HTTP request headers including:
 
 * User-Agent
 * Accept
 * Accept-Language
 * Accept-Encoding
-* Connection
 * Cache-Control
-* Upgrade-Insecure-Requests
+* Connection Settings
 
-These values are generated dynamically based on the host system.
+### Cross-Platform Support
 
----
-
-## Requirements
-
-### Python Version
-
-Python 3.7+
-
-### Optional Dependency
-
-For complete network interface information:
-
-```bash
-pip install psutil
-```
-
-Without `psutil`, the script will attempt to use built-in fallback methods where possible.
-
----
+* Windows
+* Linux
+* macOS
 
 ## Installation
 
-Clone or download the script:
+Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/system-info-collector.git
-cd system-info-collector
+git clone https://github.com/dotvrtx/infoChecker.git
+cd infoChecker
 ```
 
 Install optional dependencies:
@@ -90,53 +54,56 @@ Install optional dependencies:
 pip install psutil
 ```
 
----
+> `psutil` is optional but recommended for accurate network interface detection.
 
 ## Usage
 
-Run the script directly:
+Run the script:
 
 ```bash
-python device_info.py
+python infoChecker.py
 ```
 
 
-Main components:
 
-| Function                  | Description                                      |
-| ------------------------- | ------------------------------------------------ |
-| `get_system_info()`       | Collects operating system and Python information |
-| `get_timezone_name()`     | Determines the system timezone                   |
-| `get_mac_addresses()`     | Retrieves MAC addresses from network interfaces  |
-| `get_ip_addresses()`      | Retrieves IPv4 and IPv6 addresses                |
-| `get_browser_like_info()` | Generates browser-style HTTP headers             |
-| `print_dict()`            | Formats dictionary output                        |
-| `print_section()`         | Prints titled output sections                    |
-| `main()`                  | Entry point of the application                   |
+## Dependencies
+* Python
+### Optional
 
----
+* psutil
 
-## Cross-Platform Support
+Install:
 
-| Platform | Supported |
-| -------- | --------- |
-| Windows  | ✅         |
-| Linux    | ✅         |
-| macOS    | ✅         |
+```bash
+pip install psutil
+```
 
-Some timezone and network interface methods may vary depending on the operating system.
+## Project Structure
 
----
+```text
+infoChecker.py
+```
 
-## Notes
+## How It Works
 
-* The script only collects information available on the local machine.
-* No data is transmitted over the network.
-* All information is displayed locally in the console.
-* Installing `psutil` improves network interface detection accuracy.
+The application gathers information using:
 
----
+* Python's built-in `platform` module
+* Network socket APIs
+* System environment variables
+* `psutil` (when available)
+* Platform-specific commands such as:
 
-## License
+  * `tzutil` (Windows)
+  * `ipconfig` (Windows fallback)
 
-This project is released under the MIT License. Feel free to modify and distribute it.
+Fallback methods are included to ensure the tool continues working even when optional dependencies are unavailable.
+
+## Privacy
+
+This tool:
+
+* Does not send data to external servers
+* Does not store collected information
+* Displays information locally in the terminal only
+
