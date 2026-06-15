@@ -61,7 +61,7 @@ pip install psutil
 Run the script:
 
 ```bash
-python infoChecker.py
+python device_info.py
 ```
 
 
@@ -81,7 +81,7 @@ pip install psutil
 ## Project Structure
 
 ```text
-infoChecker.py
+device_info.py
 ```
 
 ## How It Works
